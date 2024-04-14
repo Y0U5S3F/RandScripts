@@ -54,3 +54,4 @@ for email in emails:
     subject, body = readmsg('stage.txt')
     send_email('smtp-mail.outlook.com', 587, sendermail, senderpass, email, subject, body, 'cv.pdf')
     print(f"Done sending to {email}")
+input()
