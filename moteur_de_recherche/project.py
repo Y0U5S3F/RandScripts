@@ -6,7 +6,7 @@ import os
 
 def stem_words_fnc(documents):
     stemmer = PorterStemmer()
-    stemmed_words = {}
+    stemmed = {}
     stop_words = {"a", "an", "and", "are", "as", "at", "be", "but", "by", "for", "if", "in", "into", "is", "it",
                   "no", "not", "of", "on", "or", "such", "that", "the", "their", "then", "there", "these",
                   "they", "this", "to", "was", "will", "with"}
@@ -15,17 +15,17 @@ def stem_words_fnc(documents):
         with open(document, 'r') as f:
             text = f.read()
         words = re.findall(r'\b\w+\b', text)
-        stemmed_words_for_document = [stemmer.stem(word) for word in words if word not in stop_words]
-        stemmed_words[document] = stemmed_words_for_document
+        stemmed_for_document = [stemmer.stem(word) for word in words if word not in stop_words]
+        stemmed[document] = stemmed_for_document
 
-    return stemmed_words
+    return stemmed
 
 def SF_in_documents(documents):
     SF_per_document = {}
-    stemmed_words = stem_words_fnc(documents)
+    stemmed = stem_words_fnc(documents)
 
-    for document, stemmed_words in stemmed_words.items():
-        frc = Counter(stemmed_words)
+    for document, stemmed in stemmed.items():
+        frc = Counter(stemmed)
         SF_per_document[document] = frc
 
     return SF_per_document
@@ -83,9 +83,9 @@ def index_user_query(query):
                   "they", "this", "to", "was", "will", "with"}
 
     words = re.findall(r'\b\w+\b', query)
-    stemmed_words = [stemmer.stem(word) for word in words if word not in stop_words]
+    stemmed = [stemmer.stem(word) for word in words if word not in stop_words]
 
-    return stemmed_words
+    return stemmed
 
 def calculate_query_weights(query_words, documents):
     idf = calculate_idf(documents)
