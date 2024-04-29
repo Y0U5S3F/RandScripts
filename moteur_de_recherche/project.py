@@ -67,7 +67,7 @@ def build_inverted_file(documents):
     with open('fich-inv.txt', 'w') as f:
         for document, word_weights in weights.items():
             for word, weight in word_weights.items():
-                f.write(f'{word}----{document}-----{weight}\n')
+                f.write(f'{word}----{document}----{weight}\n')
 
 def index_corpus(documents):
     documents = [os.path.abspath(document) for document in documents]
@@ -111,7 +111,7 @@ def search_documents(query, documents):
 
     sorted_documents = sorted(scores.items(), key=lambda item: item[1], reverse=True)
 
-    return [document for document, score in sorted_documents if score != 0]
+    return [(document, score) for document, score in sorted_documents if score != 0]
 
 def main():
     documents = [
@@ -133,8 +133,7 @@ def main():
     relevant_documents = search_documents(query, documents)
 
     print("Relevant documents:")
-    for document in relevant_documents:
-        print(document)
+    for document, score in relevant_documents:
+        print(f"{document}: {score}")
 
-if __name__ == "__main__":
-    main()
+main()
